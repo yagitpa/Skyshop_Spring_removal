@@ -1,5 +1,6 @@
 package org.skypro.myskyshop.service;
 
+import org.skypro.myskyshop.exceptions.InvalidSearchPatternException;
 import org.skypro.myskyshop.model.search.SearchResult;
 import org.skypro.myskyshop.model.search.Searchable;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,10 @@ public class SearchService {
     }
 
     public List<SearchResult> search(String pattern) {
+        if (pattern == null || pattern.isBlank()) {
+            throw new InvalidSearchPatternException("Поисковый запрос не может быть пустым или состоять из пробелов!");
+        }
+
         Collection<Searchable> allSearchables = storageService.getAllSearchables();
         return allSearchables.stream()
                 .filter(searchable -> searchable.getSearchTerm().toLowerCase().contains(pattern.toLowerCase()))

@@ -1,6 +1,7 @@
 package org.skypro.myskyshop.model.article;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.skypro.myskyshop.exceptions.InvalidArticleException;
 import org.skypro.myskyshop.model.search.Searchable;
 
 import java.util.Objects;
@@ -13,13 +14,13 @@ public final class Article implements Searchable {
 
     public Article(UUID id, String title, String text) {
         if (id == null) {
-            throw new IllegalArgumentException("Идентификатор статьи не может быть пустым!");
+            throw new InvalidArticleException("Идентификатор статьи не может быть пустым!");
         }
         if (title == null || title.trim().isEmpty()) {
-            throw new IllegalArgumentException("Название статьи не может быть пустым");
+            throw new InvalidArticleException("Название статьи не может быть пустым");
         }
         if (text == null || text.trim().isEmpty()) {
-            throw new IllegalArgumentException("Текст статьи не может быть пустым");
+            throw new InvalidArticleException("Текст статьи не может быть пустым");
         }
         this.id = id;
         this.title = title;

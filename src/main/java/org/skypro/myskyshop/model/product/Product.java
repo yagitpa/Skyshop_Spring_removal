@@ -1,21 +1,22 @@
 package org.skypro.myskyshop.model.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.skypro.myskyshop.exceptions.InvalidProductException;
 import org.skypro.myskyshop.model.search.Searchable;
 
 import java.util.Objects;
 import java.util.UUID;
 
 public abstract class Product implements Searchable {
-    protected final UUID id;
-    protected final String name;
+    private final UUID id;
+    private final String name;
 
     public Product(UUID id, String name) {
         if (id == null) {
-            throw new IllegalArgumentException("Идентификатор продукта не может быть пустым!");
+            throw new InvalidProductException("Идентификатор продукта не может быть пустым!");
         }
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Наименование товара не может быть пустым или отсутствовать!");
+            throw new InvalidProductException("Наименование товара не может быть пустым или отсутствовать!");
         }
         this.id = id;
         this.name = name;
