@@ -3,23 +3,30 @@ package org.skypro.myskyshop.controller;
 import org.skypro.myskyshop.model.article.Article;
 import org.skypro.myskyshop.model.product.Product;
 import org.skypro.myskyshop.model.search.SearchResult;
+import org.skypro.myskyshop.model.user.UserBasket;
+import org.skypro.myskyshop.service.BasketService;
 import org.skypro.myskyshop.service.SearchService;
 import org.skypro.myskyshop.service.StorageService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class ShopController {
     private final StorageService storageService;
     private final SearchService searchService;
+    private final BasketService basketService;
 
-    public ShopController(StorageService storageService, SearchService searchService) {
+    public ShopController(StorageService storageService, SearchService searchService, BasketService basketService) {
         this.storageService = storageService;
         this.searchService = searchService;
+        this.basketService = basketService;
     }
 
     @GetMapping("/products")
@@ -35,5 +42,16 @@ public class ShopController {
     @GetMapping("/search")
     public List<SearchResult> search(@RequestParam String pattern) {
         return searchService.search(pattern);
+    }
+
+    @GetMapping("/basket/{id}")
+    public ResponseEntity<String> addProduct(@PathVariable("id")UUID id, @RequestParam("quantity") int quantity) {
+        basketService.addProduct(id, quantity);
+        return ResponseEntity.ok("Продукт успешно добавлен");
+    }
+
+    @GetMapping("/basket")
+    public UserBasket getUserBasket() {
+        return basketService.getUserBasket();
     }
 }
