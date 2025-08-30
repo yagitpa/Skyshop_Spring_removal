@@ -1,11 +1,10 @@
 package org.skypro.myskyshop.service;
 
-import org.skypro.myskyshop.exceptions.ProductNotFoundException;
 import org.skypro.myskyshop.model.basket.ProductBasket;
 import org.skypro.myskyshop.model.product.Product;
-import org.skypro.myskyshop.model.user.UserBasket;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,16 +18,16 @@ public class BasketService {
         this.storageService = storageService;
     }
 
-    public void addProduct(UUID productId, int quantity) {
+    public void addProduct(UUID productId) {
         Optional<Product> productOptional = storageService.getProductById(productId);
         if (productOptional.isPresent()) {
-            productBasket.addProduct(productId, quantity);
+            productBasket.addProduct(productId);
         } else {
-            throw new ProductNotFoundException("Товар с указанным идентификатором не найден");
+            throw new IllegalArgumentException("Товар с указанным идентификатором не найден");
         }
     }
 
-    public UserBasket getUserBasket() {
-        return UserBasket.fromBasket(productBasket.getProducts(), storageService);
+    public Map<UUID, Integer> getBasketContents() {
+        return productBasket.getProducts();
     }
 }

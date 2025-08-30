@@ -10,8 +10,8 @@ import java.util.*;
 public class ProductBasket {
     private final Map<UUID, Integer> products = new HashMap<>();
 
-    public void addProduct(UUID productId, int quantity) {
-        products.merge(productId, quantity, Integer::sum);
+    public void addProduct(UUID productId) {
+        products.merge(productId, 1, Integer::sum);
     }
 
     public Map<UUID, Integer> getProducts() {
