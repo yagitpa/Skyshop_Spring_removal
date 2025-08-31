@@ -55,19 +55,6 @@ public class ShopController {
 
     @GetMapping("/basket")
     public UserBasket getUserBasket() {
-        Map<UUID, Integer> basketMap = basketService.getBasketContents();
-        List<BasketItem> items = basketMap.entrySet().stream()
-                .map(entry -> {
-                    UUID productId = entry.getKey();
-                    int quantity = entry.getValue();
-                    Product product = storageService.getProductById(productId)
-                            .orElseThrow(() -> new IllegalStateException("Товар не найден"));
-                    return new BasketItem(product, quantity);
-                })
-                .collect(Collectors.toList());
-        double total = items.stream()
-                .mapToDouble(item -> item.quantity() * item.product().getPrice())
-                .sum();
-        return new UserBasket(items, total);
+        return basketService.getUserBasket();
     }
 }
