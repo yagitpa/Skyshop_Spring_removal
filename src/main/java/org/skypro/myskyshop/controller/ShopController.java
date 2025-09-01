@@ -3,6 +3,7 @@ package org.skypro.myskyshop.controller;
 import org.skypro.myskyshop.model.article.Article;
 import org.skypro.myskyshop.model.product.Product;
 import org.skypro.myskyshop.model.search.SearchResult;
+import org.skypro.myskyshop.model.user.BasketItem;
 import org.skypro.myskyshop.model.user.UserBasket;
 import org.skypro.myskyshop.service.BasketService;
 import org.skypro.myskyshop.service.SearchService;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 public class ShopController {
@@ -45,8 +48,8 @@ public class ShopController {
     }
 
     @GetMapping("/basket/{id}")
-    public ResponseEntity<String> addProduct(@PathVariable("id")UUID id, @RequestParam("quantity") int quantity) {
-        basketService.addProduct(id, quantity);
+    public ResponseEntity<String> addProduct(@PathVariable("id")UUID id) {
+        basketService.addProduct(id);
         return ResponseEntity.ok("Продукт успешно добавлен");
     }
 

@@ -1,31 +1,27 @@
 package org.skypro.myskyshop.model.user;
 
-import org.skypro.myskyshop.exceptions.BasketFormationException;
-import org.skypro.myskyshop.model.product.Product;
-import org.skypro.myskyshop.service.StorageService;
-
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
-public record UserBasket(List<BasketItem> items, double total) {
+public class UserBasket {
+    private final List<BasketItem> items;
+    private final double total;
 
-    public static UserBasket fromBasket(Map<UUID, Integer> basketMap, StorageService storageService) {
-        List<BasketItem> items = basketMap.entrySet().stream()
-                .map(entry -> {
-                    UUID productId = entry.getKey();
-                    int quantity = entry.getValue();
-                    Product product = storageService.getProductById(productId)
-                            .orElseThrow(() -> new BasketFormationException("Товар с идентификатором " + productId +
-                                    " не найден"));
-                    return new BasketItem(product, quantity);
-                })
-                .collect(Collectors.toList());
+    public UserBasket(List<BasketItem> items) {
+        this.items = items;
+        this.total = calculatedTotal(items);
+    }
 
-        double total = items.stream()
+    public List<BasketItem> getItems() {
+        return items;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    private double calculatedTotal(List<BasketItem> items) {
+        return items.stream()
                 .mapToDouble(item -> item.quantity() * item.product().getPrice())
                 .sum();
-        return new UserBasket(items, total);
     }
 }
