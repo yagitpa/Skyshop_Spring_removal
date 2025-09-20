@@ -32,13 +32,11 @@ public class BasketService {
                 .map(entry -> {
                     UUID productId = entry.getKey();
                     int quantity = entry.getValue();
-                    Product product = storageService.getProductById(productId).orElse(null);
-                    if (product == null) {
-                        return null;
-                    }
+                    Product product = storageService.getProductById(productId)
+                                    .orElseThrow(() -> new NoSuchProductException("Товар с идентификатором " + productId +
+                                            " не найден"));
                     return new BasketItem(product, quantity);
                 })
-                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
         return new UserBasket(items);
     }
