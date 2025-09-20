@@ -36,11 +36,7 @@ public class StorageService {
     }
 
     public Optional<Product> getProductById(UUID id) {
-        Product p = products.get(id);
-        if (p == null) {
-            throw new NoSuchProductException("Товар с идентификатором " + id + " не найден");
-        }
-        return Optional.of(p);
+        return Optional.ofNullable(products.get(id));
     }
 
     private void initializeData() {

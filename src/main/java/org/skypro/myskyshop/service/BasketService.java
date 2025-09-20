@@ -21,7 +21,8 @@ public class BasketService {
     }
 
     public void addProduct(UUID productId) {
-        storageService.getProductById(productId);
+        storageService.getProductById(productId).orElseThrow(() -> new NoSuchProductException("Товар с идентификатором" +
+                " " + productId + " не найден"));
         productBasket.addProduct(productId);
         }
 
