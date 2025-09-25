@@ -2,11 +2,7 @@ package org.skypro.myskyshop.exceptions;
 
 public class InvalidSearchPatternException extends RuntimeException {
 
-    public InvalidSearchPatternException(String message) {
-        super(message);
-    }
-
-    public InvalidSearchPatternException(String message, Throwable cause) {
-        super(message, cause);
+    public InvalidSearchPatternException() {
+        super("Поисковый запрос не может быть пустым или состоять из пробелов!");
     }
 }

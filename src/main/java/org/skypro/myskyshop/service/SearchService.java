@@ -19,7 +19,7 @@ public class SearchService {
 
     public List<SearchResult> search(String pattern) {
         if (pattern == null || pattern.isBlank()) {
-            throw new InvalidSearchPatternException("Поисковый запрос не может быть пустым или состоять из пробелов!");
+            throw new InvalidSearchPatternException();
         }
 
         Collection<Searchable> allSearchables = storageService.getAllSearchables();
