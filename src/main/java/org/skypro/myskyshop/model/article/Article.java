@@ -1,8 +1,8 @@
 package org.skypro.myskyshop.model.article;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.skypro.myskyshop.exceptions.InvalidArticleException;
 import org.skypro.myskyshop.model.search.Searchable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Objects;
 import java.util.UUID;

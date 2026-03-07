@@ -1,6 +1,5 @@
 package org.skypro.myskyshop.service;
 
-import org.skypro.myskyshop.exceptions.NoSuchProductException;
 import org.skypro.myskyshop.model.article.Article;
 import org.skypro.myskyshop.model.product.Product;
 import org.skypro.myskyshop.model.product.special.DiscountedProduct;
